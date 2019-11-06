@@ -1,0 +1,20 @@
+{
+  "name": "read-it-later",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marshall159/readItLater.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marshall159/readItLater/issues"
+  },
+  "homepage": "https://github.com/marshall159/readItLater#readme"
+}
