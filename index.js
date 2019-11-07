@@ -1,8 +1,10 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
+const app = express();
 
-const articles = [{title: 'Aneel'}, {title: 'Maria'}, {title: 'Soda'}];
+const { Article } = require('./db');
+
+// const articles = [{title: 'Aneel'}, {title: 'Maria'}, {title: 'Soda'}];
 
 app.set('port', process.env.PORT || 3000);
 
@@ -15,8 +17,12 @@ app.get('/', (req, res) => {
   res.send('Hello world!');
 });
 
-app.get('/articles', (req, res) => {
-  res.send(articles);
+app.get('/articles', (req, res, next) => {
+  Article.all((err, articles) => {
+    if (err) return next(err);
+
+    res.send(articles);
+  });
 });
 
 app.post('/articles', (req, res) => {
@@ -29,17 +35,22 @@ app.post('/articles', (req, res) => {
 
 app.get('/article/:id', (req, res) => {
   const id = req.params.id;
-  console.log(`Fetching: ${id}`);
 
-  res.send(articles[id]);
+  Article.find(id, (err, article) => {
+    if (err) return next(err);
+
+    res.send(article);
+  });
 });
 
 app.delete('/article/:id', (req, res) => {
   const id = req.params.id;
-  console.log(`Deleting: ${id}`);
-  delete articles[id];
 
-  res.send({ message: 'Deleted' });
+  Article.delete(id, (err) => {
+    if (err) return next(err);
+
+    res.send({ message: 'Deleted' });
+  });
 });
 
 app.listen(app.get('port'), () => {
