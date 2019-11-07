@@ -1,9 +1,15 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+
+const articles = [{title: 'Aneel'}, {title: 'Maria'}, {title: 'Soda'}];
 
 app.set('port', process.env.PORT || 3000);
 
-const articles = [{title: 'Aneel'}, {title: 'Maria'}, {title: 'Soda'}];
+// supports request bodies encoded as JSON
+app.use(bodyParser.json());
+// supports form encoded bodies
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
   res.send('Hello world!');
@@ -14,7 +20,11 @@ app.get('/articles', (req, res) => {
 });
 
 app.post('/articles', (req, res) => {
-  res.send('OK');
+  console.log('body', req.body);
+  const article = { title: req.body.title };
+  articles.push(article);
+
+  res.send(article);
 });
 
 app.get('/article/:id', (req, res) => {
