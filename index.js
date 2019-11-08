@@ -13,6 +13,8 @@ app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
 // supports form encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
+// use bootstrap for styling
+app.use('/css/bootstrap.css', express.static('node_modules/bootstrap/dist/css/bootstrap.css'));
 
 app.get('/', (req, res) => {
   res.send('Hello world!');
@@ -55,7 +57,7 @@ app.get('/article/:id', (req, res) => {
   Article.find(id, (err, article) => {
     if (err) return next(err);
 
-    res.send(article);
+    res.render('article.ejs', { article });
   });
 });
 
